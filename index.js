@@ -18,24 +18,18 @@ client.on('messageCreate', msg => {
     if (msg.content === 'k!ciao') msg.reply(`Guten Tag ${msg.author.globalName}!`);
     if (msg.content === 'k!oggi') {
         const oggi = dataOggi()
-        msg.reply(`Oggi ich ${oggi.giorno}/${oggi.mese}/${oggi.anno}`)
+        msg.reply(`Oggi ist ${oggi.giorno}/${oggi.mese}/${oggi.anno}`)
     }
 });
 
 /* Ottieni data del giorno */
 function dataOggi() {
-    const now = Date.now()
-
-    const minute = 60 * 1000; // 60 secondi * 1000 ms
-    const hour = 60 * minute;
-    const day = 24 * hour;
-    const month = 30 * day;
-    const year = 365 * day;
-
-    let anno = Math.floor(now / year);
-    let mese = Math.floor((now - year) / month)
-    let giorno = Math.floor(((now - year) - month) / day)
-    return [giorno, mese, anno]
+    const now = new Date();
+    return {
+        giorno: now.getDate(),
+        mese: now.getMonth() + 1,
+        anno: now.getFullYear()
+    };
 }
 
 client.login(process.env.DISCORD_TOKEN);

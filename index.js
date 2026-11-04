@@ -15,7 +15,7 @@ client.once('ready', () => {
 
 client.on('messageCreate', msg => {
     if (msg.author.bot) return;
-    if (msg.content === '!ciao') msg.reply('Ciao!');
+    if (msg.content === 'k!ciao') msg.reply('Guten Tag!');
 });
 
 client.login(process.env.DISCORD_TOKEN);

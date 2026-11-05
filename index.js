@@ -29,6 +29,8 @@ client.on('messageCreate', msg => {
         //profileCanvas(msg.author.id)
         'Purtroppo ci stiamo ancora lavorando'
     )
+    if (msg.content === 'k!anchovy') msg.reply(twitterVideo(anchovy))
+    if (msg.content === 'k!gigafly') msg.reply(twitterVideo(gigafly))
 });
 
 // Ottieni data del giorno
@@ -80,7 +82,7 @@ cron.schedule('30 06 * * *', () => {
     }
 })
 
-// Compleanni
+// --- Compleanni ---
 // Non ancora implementato, non voglio metterli pubblici su GitHub. Poi ci penserò a come fare
 
 // --- Immagini ---
@@ -97,6 +99,30 @@ function profileCanvas(utente) {
         context.drawImage(avatar, 25, 0, 200, 200); // posizione x, posizione y, lunghezza, altezza
 
     }
+}
+
+// --- Twitter Video Array ---
+const anchovy = [
+    "https://fxtwitter.com/infobrator/status/2115224152504438928",
+    "https://fxtwitter.com/gatolopang/status/2114029299988918637",
+    "https://fxtwitter.com/gatolopang/status/2117337591578308900"
+]
+
+const gigafly = [
+    "https://fxtwitter.com/YungFascist/status/2099244999733023149",
+    "https://fxtwitter.com/NeetChud888/status/2110806272685617409",
+    "https://fxtwitter.com/realemonjames/status/2110256628285239515",
+    "https://fxtwitter.com/4rch1er/status/2108095610842730531",
+    "https://fxtwitter.com/HimSpx6900/status/2106506086995882106",
+    "https://fxtwitter.com/shitlibtribal/status/2101161514501632322",
+    "https://fxtwitter.com/CavesCliffs/status/2100617893956227074",
+    "https://fxtwitter.com/flower155221/status/2086902301340364913"
+]
+
+function twitterVideo(video) {
+    // In base all'array richiesta, ritorna il video random scelto dall'array
+    const index = Math.floor(Math.random() * video.length);
+    return video[index];
 }
 
 client.login(process.env.DISCORD_TOKEN);

@@ -4,6 +4,8 @@ Bot Discord ufficiale per il server di Discord Romeo Nudo.
 Creato da Alemalas con l'aiuto di Claude
 
 ## Changelog
+- 0.2.1 (05 Nov 2026)
+
 - 0.2.0 (05 Nov 2026)
     ### Lettura Chat vocale
     #### Creato "Controllo gufi"

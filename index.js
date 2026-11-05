@@ -15,6 +15,7 @@ const client = new Client({
 
 client.once('ready', () => {
     console.log(`Loggato come ${client.user.tag}`);
+    console.log('Versione 0.2.1')
 });
 
 client.on('messageCreate', msg => {
@@ -24,7 +25,10 @@ client.on('messageCreate', msg => {
         const oggi = dataOggi()
         msg.reply(`Oggi ist ${oggi.giorno}/${oggi.mese}/${oggi.anno}`)
     }
-    if (msg.content === 'k!profilo') msg.reply(profileCanvas(msg.author.id))
+    if (msg.content === 'k!profilo') msg.reply(
+        //profileCanvas(msg.author.id)
+        'Purtroppo ci stiamo ancora lavorando'
+    )
 });
 
 // Ottieni data del giorno

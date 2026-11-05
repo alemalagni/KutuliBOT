@@ -26,7 +26,7 @@ client.on('messageCreate', msg => {
         msg.reply(`Oggi ist ${oggi.giorno}/${oggi.mese}/${oggi.anno}`)
     }
     if (msg.content === 'k!profilo') {
-        console.log(msg);
+        console.log(msg.mentions.repliedUser.primaryGuild); // Test
         msg.reply(
             //profileCanvas(msg.author.id)
             'Purtroppo ci stiamo ancora lavorando'

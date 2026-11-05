@@ -1,0 +1,17 @@
+# Kutuli BOT :D
+Bot Discord ufficiale per il server di Discord Romeo Nudo.
+
+Creato da Alemalas con l'aiuto di Claude
+
+## Changelog
+- 0.2.0 (05 Nov 2026)
+    ### Lettura Chat vocale
+    #### Creato "Controllo gufi"
+    - Ogni giorno alle 06.30 se sono presenti dei membri, li richiamerà in chat #Orazius ordinando loro di andare a dormire
+    
+    #### Creato "Controllo solitudine"
+    - Se un membro si trova da solo in chat vocale per 15 minuti, manderà in chat #Orazius un messaggio a tutti i membri chiedendogli di entrare in chat
+
+- 0.1.0 (04 Nov 2026)
+    ### Creazione di Kutuli Bot
+    - Creazione dei comandi k!ciao e k!oggi

@@ -39,20 +39,9 @@ const QUINDICI_MIN = 15 * 60 * 1000;
 
 let timerSolitudine = null;
 
-client.on('voiceStateUpdate', (oldState, newState) => {
+client.on('voiceStateUpdate', () => {
     const canaleTesto = client.channels.cache.get(process.env.ORAZIUS_ID);
     const canaleVocale = client.channels.cache.get(process.env.BIG_LEAGUES_ID);
-
-    // --- notifiche entrata/uscita/spostamento (come prima) ---
-    if (!oldState.channelId && newState.channelId) {
-        canaleTesto.send(`🎙️ ${newState.member.displayName} è entrato in **${newState.channel.name}**`);
-    }
-    if (oldState.channelId && !newState.channelId) {
-        canaleTesto.send(`👋 ${oldState.member.displayName} ha lasciato il canale vocale`);
-    }
-    if (oldState.channelId && newState.channelId && oldState.channelId !== newState.channelId) {
-        canaleTesto.send(`🔀 ${newState.member.displayName} si è spostato in **${newState.channel.name}**`);
-    }
 
     // --- controllo "da solo da troppo tempo" ---
     if (canaleVocale.members.size === 1) {

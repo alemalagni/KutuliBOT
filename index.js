@@ -1,5 +1,7 @@
 require('dotenv').config();
 const cron = require('node-cron');
+const Canvas = require('@napi-rs/canvas');
+const { request } = require('undici');
 const { Client, GatewayIntentBits } = require('discord.js');
 
 const client = new Client({
@@ -22,6 +24,7 @@ client.on('messageCreate', msg => {
         const oggi = dataOggi()
         msg.reply(`Oggi ist ${oggi.giorno}/${oggi.mese}/${oggi.anno}`)
     }
+    if (msg.content === 'k!profilo') msg.reply(profileCanvas(msg.author.id))
 });
 
 // Ottieni data del giorno
@@ -35,7 +38,7 @@ function dataOggi() {
 }
 
 // --- Controllo chat vocale ---
-const QUINDICI_MIN = 15 * 60 * 1000;
+const timer = 15 * 60 * 1000;
 
 let timerSolitudine = null;
 
@@ -49,9 +52,9 @@ client.on('voiceStateUpdate', () => {
         const soloMember = canaleVocale.members.first();
         timerSolitudine = setTimeout(() => {
             if (canaleVocale.members.size === 1) {
-                canaleTesto.send(`🎙️ ${soloMember.displayName} aspetta da **15 minuti** in **${canaleVocale.name}**! Non fare l'🧃 entra in chat`);
+                canaleTesto.send(`🎙️ <@${soloMember.id}> aspetta da **15 minuten** in **${canaleVocale.name}**! Non fare l'🧃 entra in chat`);
             }
-        }, QUINDICI_MIN);
+        }, timer);
     } else {
         // non è più solo (o il canale è vuoto): annulla il timer se attivo
         if (timerSolitudine) {
@@ -76,5 +79,20 @@ cron.schedule('30 06 * * *', () => {
 // Compleanni
 // Non ancora implementato, non voglio metterli pubblici su GitHub. Poi ci penserò a come fare
 
+// --- Immagini ---
+function profileCanvas(utente) {
+    async () => {
+        // crea il canvas (riquadro) di 700 x 250 pixel
+        const canvas = Canvas.createCanvas(700, 250);
+        const context = canvas.getContext('2d');
+
+        // Ottengo avatar
+        const { body } = await request(utente.displayAvatarURL({ extension: 'jpg' }));
+        const avatar = await Canvas.loadImage(await body.arrayBuffer());
+
+        context.drawImage(avatar, 25, 0, 200, 200); // posizione x, posizione y, lunghezza, altezza
+
+    }
+}
 
 client.login(process.env.DISCORD_TOKEN);

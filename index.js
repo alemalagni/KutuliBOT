@@ -25,10 +25,13 @@ client.on('messageCreate', msg => {
         const oggi = dataOggi()
         msg.reply(`Oggi ist ${oggi.giorno}/${oggi.mese}/${oggi.anno}`)
     }
-    if (msg.content === 'k!profilo') msg.reply(
-        //profileCanvas(msg.author.id)
-        'Purtroppo ci stiamo ancora lavorando'
-    )
+    if (msg.content === 'k!profilo') {
+        console.log(msg);
+        msg.reply(
+            //profileCanvas(msg.author.id)
+            'Purtroppo ci stiamo ancora lavorando'
+        )
+    }
     if (msg.content === 'k!anchovy') msg.reply(twitterVideo(anchovy))
     if (msg.content === 'k!gigafly') msg.reply(twitterVideo(gigafly))
 });

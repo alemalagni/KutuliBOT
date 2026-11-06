@@ -18,7 +18,7 @@ client.once('ready', () => {
     console.log('Versione 0.2.1')
 });
 
-client.on('messageCreate', msg => {
+client.on('messageCreate', async msg => {
     if (msg.author.bot) return;
     if (msg.content === 'k!ciao') msg.reply(`Guten Tag ${msg.author.globalName}!`);
     if (msg.content === 'k!oggi') {
@@ -26,14 +26,33 @@ client.on('messageCreate', msg => {
         msg.reply(`Oggi ist ${oggi.giorno}/${oggi.mese}/${oggi.anno}`)
     }
     if (msg.content === 'k!profilo') {
-        console.log(msg.mentions.repliedUser); // Test
         msg.reply(
             //profileCanvas(msg.author.id)
             'Purtroppo ci stiamo ancora lavorando'
         )
     }
-    if (msg.content === 'k!anchovy') msg.reply(twitterVideo(anchovy))
-    if (msg.content === 'k!gigafly') msg.reply(twitterVideo(gigafly))
+    if (msg.content === 'k!anchovy' || msg.content === 'k!gigafly') {
+        const video = msg.content === 'k!anchovy' ? anchovy : gigafly;
+        const link = twitterVideo(video);
+
+        if (msg.reference) {
+            try {
+                const repliedMsg = await msg.fetchReference();
+                const citazione = repliedMsg.content
+                    .split('\n')
+                    .map(riga => `> ${riga}`)
+                    .join('\n');
+
+                const linkPulito = link.replace('fxtwitter.com', 'd.fxtwitter.com');
+                return msg.reply(`${citazione}\n${linkPulito}`);
+            } catch (e) {
+                console.error(e);
+                return msg.reply(link); // se il fetch fallisce (es. messaggio cancellato), manda solo il link
+            }
+        }
+
+        return msg.reply(link);
+    }
 });
 
 // Ottieni data del giorno
@@ -75,11 +94,11 @@ client.on('voiceStateUpdate', () => {
 
 // Controllo gufi in chat vocale
 cron.schedule('30 06 * * *', () => {
-    const canaleVocale = client.channels.cache.get('778165040872161306');
+    const canaleVocale = client.channels.cache.get(process.env.BIG_LEAGUES_ID);
     const presenti = canaleVocale.members.map(m => m.id);
 
     if (presenti.length > 0) {
-        const canaleTesto = "778165040872161303";
+        const canaleTesto = process.env.ORAZIUS_ID;
         const menzioni = presenti.map(p => `<@${p}>`).join(' ');
         canaleTesto.send(`${menzioni} sono le **06:30** del morgen! Ist tempo di andaren a nanna!`);
     }
@@ -108,7 +127,8 @@ function profileCanvas(utente) {
 const anchovy = [
     "https://fxtwitter.com/infobrator/status/2115224152504438928",
     "https://fxtwitter.com/gatolopang/status/2114029299988918637",
-    "https://fxtwitter.com/gatolopang/status/2117337591578308900"
+    "https://fxtwitter.com/gatolopang/status/2117337591578308900",
+    "https://fxtwitter.com/Alisa_KujouLARP/status/2094451511266770988"
 ]
 
 const gigafly = [
@@ -119,7 +139,8 @@ const gigafly = [
     "https://fxtwitter.com/HimSpx6900/status/2106506086995882106",
     "https://fxtwitter.com/shitlibtribal/status/2101161514501632322",
     "https://fxtwitter.com/CavesCliffs/status/2100617893956227074",
-    "https://fxtwitter.com/flower155221/status/2086902301340364913"
+    "https://fxtwitter.com/flower155221/status/2086902301340364913",
+    "https://fxtwitter.com/sigmahamster2/status/2101707757455880543"
 ]
 
 function twitterVideo(video) {
